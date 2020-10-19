@@ -18,3 +18,10 @@ connection.connect(function (error) {
     if (!!error) console.log(error);
     else console.log("Database Connected!");
   });
+  
+  //set views file
+  app.set("views", path.join(__dirname, "views"));
+  //set view engine
+  app.set("view engine", "ejs");
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
