@@ -12,3 +12,9 @@ const connection = mysql.createConnection({
   password: "Sairoden12",
   database: "inventory",
 });
+
+// Connecting database
+connection.connect(function (error) {
+    if (!!error) console.log(error);
+    else console.log("Database Connected!");
+  });
