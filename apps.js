@@ -64,7 +64,7 @@ app.post("/save", (req, res) => {
 // edit
 app.get("/edit/:itemID", (req, res) => {
   const itemID = req.params.itemID;
-  let sql = `Select * from items where ID = ${itemID}`;
+  let sql = `SELECT * FROM items WHERE ID = ${itemID}`;
   let query = connection.query(sql, (err, result) => {
     if (err) throw err;
     res.render("item_edit", {
@@ -72,4 +72,27 @@ app.get("/edit/:itemID", (req, res) => {
       items: result[0],
     });
   });
+});
+
+// update
+app.post("/update", (req, res) => {
+  const itemID = req.body.ID;
+  let sql =
+    "UPDATE items SET Name='" +
+    req.body.Name +
+    "',  Quantity='" +
+    req.body.Quantity +
+    "',  Amount='" +
+    req.body.Amount +
+    "' WHERE ID =" +
+    itemID;
+  let query = connection.query(sql, (err, results) => {
+    if (err) throw err;
+    res.redirect("/");
+  });
+});
+
+// Server Listening
+app.listen(8700, () => {
+  console.log("Server is running at port 8700");
 });
