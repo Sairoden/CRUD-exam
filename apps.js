@@ -92,7 +92,12 @@ app.post("/update", (req, res) => {
   });
 });
 
-// Server Listening
-app.listen(8700, () => {
-  console.log("Server is running at port 8700");
+// Delete
+app.get("/delete/:itemID", (req, res) => {
+  const itemID = req.params.itemID;
+  let sql = `DELETE FROM items WHERE ID = ${itemID}`;
+  let query = connection.query(sql, (err, result) => {
+    if (err) throw err;
+    res.redirect("/");
+  });
 });
