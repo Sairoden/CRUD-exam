@@ -27,14 +27,32 @@ app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/items", (req, res) => {
+app.get("/", (req, res) => {
   let sql = "SELECT * FROM items";
   let query = connection.query(sql, (err, rows) => {
     if (err) throw err;
     res.render("index", {
       title: "Inventory",
-      items: rows
+      items: rows,
     });
+  });
+});
+
+app.get("/items", (req, res) => {
+  res.render("item_add", {
+    title: "ADD Item to Inventory",
+  });
+});
+app.post("/save", (req, res) => {
+  let data = {
+    Name: req.body.Name,
+    Quantity: req.body.Quantity,
+    Amount: req.body.Amount,
+  };
+  let sql = "INSERT INTO items SET ?";
+  let query = connection.query(sql, data, (err, results) => {
+    if (err) throw err;
+    res.redirect("/");
   });
 });
 
