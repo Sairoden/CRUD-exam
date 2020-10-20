@@ -19,10 +19,10 @@ connection.connect(function (error) {
   else console.log("Database Connected!");
 });
 
-//set views file
+// Set views file
 app.set("views", path.join(__dirname, "views"));
 
-//set view engine
+// Set view engine
 app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -39,8 +39,7 @@ app.get("/", (req, res) => {
   });
 });
 
-// Item get
-
+// Get Item
 app.get("/items", (req, res) => {
   res.render("item_add", {
     title: "ADD Item to Inventory",
@@ -61,7 +60,7 @@ app.post("/save", (req, res) => {
   });
 });
 
-// edit
+// Edit
 app.get("/edit/:itemID", (req, res) => {
   const itemID = req.params.itemID;
   let sql = `SELECT * FROM items WHERE ID = ${itemID}`;
@@ -74,7 +73,7 @@ app.get("/edit/:itemID", (req, res) => {
   });
 });
 
-// update
+// Update
 app.post("/update", (req, res) => {
   const itemID = req.body.ID;
   let sql =
@@ -100,4 +99,9 @@ app.get("/delete/:itemID", (req, res) => {
     if (err) throw err;
     res.redirect("/");
   });
+});
+
+// Server Listening
+app.listen(8700, () => {
+  console.log("Server is running at port 8700");
 });
