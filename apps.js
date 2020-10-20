@@ -27,6 +27,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Home page
 app.get("/", (req, res) => {
   let sql = "SELECT * FROM items";
   let query = connection.query(sql, (err, rows) => {
@@ -38,11 +39,15 @@ app.get("/", (req, res) => {
   });
 });
 
+// Item get
+
 app.get("/items", (req, res) => {
   res.render("item_add", {
     title: "ADD Item to Inventory",
   });
 });
+
+// save route
 app.post("/save", (req, res) => {
   let data = {
     Name: req.body.Name,
@@ -56,7 +61,15 @@ app.post("/save", (req, res) => {
   });
 });
 
-// Server Listening
-app.listen(8700, () => {
-  console.log("Server is running at port 8700");
+// edit
+app.get("/edit/:itemID", (req, res) => {
+  const itemID = req.params.itemID;
+  let sql = `Select * from items where ID = ${itemID}`;
+  let query = connection.query(sql, (err, result) => {
+    if (err) throw err;
+    res.render("item_edit", {
+      title: "Edit Item in your Inventory",
+      items: result[0],
+    });
+  });
 });
